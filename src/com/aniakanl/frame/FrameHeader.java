@@ -1,5 +1,7 @@
 package com.aniakanl.frame;
 
+import com.aniakanl.client.ExBufferedInputStream;
+
 /**
  * Create a frame header object
  * @param length 24-bit unsigned integer value that specifies length of the frame
@@ -11,15 +13,25 @@ package com.aniakanl.frame;
 public class FrameHeader {
 	
 	private int length;
-	private FrameType type;
+	public FrameType Type;
 	private FrameFlag flag;
 	private int streamIdentifier;
 	
-	public FrameHeader(int length, FrameType type, FrameFlag flag, int streamIdentifier){
+	private FrameHeader(int length, FrameType type, FrameFlag flag, int streamIdentifier){
 		this.length = length;
-		this.type = type;
+		this.Type = type;
 		this.flag = flag;
 		this.streamIdentifier = streamIdentifier;
+	}
+	
+	public static FrameHeader Parse(byte[] headerStream)
+	{
+		FrameHeader result = null;
+		
+		//result = new FrameHeader()
+
+		
+		return result;
 	}
 
 }
