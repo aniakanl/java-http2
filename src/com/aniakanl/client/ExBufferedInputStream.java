@@ -15,11 +15,11 @@ public class ExBufferedInputStream extends BufferedInputStream{
 	/**
 	 * Reads bytes from this input stream until it reaches the specified marker in the stream 
 	 * @param marker the stop marker 
-	 * @param includeMaker whether marker must be returned
+	 * @param includeMarker whether marker must be returned
 	 * @return the bytes read from the stream, or null if the marker is not found in the stream
 	 * @throws IOException
 	 */
-	public byte[] read(byte[] marker, boolean includeMaker) throws IOException
+	public byte[] read(byte[] marker, boolean includeMarker) throws IOException
 	{
 		// TODO implement the logic for includeMarker
 		byte[] result = null;
