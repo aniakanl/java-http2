@@ -1,0 +1,6 @@
+package com.aniakanl.frame;
+
+public enum FrameType {
+	
+	DATA, HEADERS, PRIORITY, RST_STREAM, SETTINGS, PUSH_PROMISE, PING, GOAWAY, WINDOW_UPDATE, CONTINUATION;
+}
