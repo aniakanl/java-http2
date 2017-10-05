@@ -19,6 +19,7 @@ public class ExBufferedInputStream extends BufferedInputStream{
 	 * @return the bytes read from the stream, or null if the marker is not found in the stream
 	 * @throws IOException
 	 */
+	
 	public byte[] read(byte[] marker, boolean includeMarker) throws IOException
 	{
 		// TODO implement the logic for includeMarker
@@ -40,7 +41,6 @@ public class ExBufferedInputStream extends BufferedInputStream{
 			if (readSize > 0) {
 				for (int i = 0; i < readSize; i++) {
 					if (unseenMarkerIndex < marker.length && marker[unseenMarkerIndex] == tmpBuffer[i]) {
-						
 						unseenMarkerIndex++;
 					}
 					else if(unseenMarkerIndex == marker.length){
@@ -60,14 +60,12 @@ public class ExBufferedInputStream extends BufferedInputStream{
 					tmpBuffer = Arrays.copyOfRange(tmpBuffer, 0, ++markerEndLoc);
 				}
 
-				if (result == null) {
-					
+				if (result == null) {					
 					result = Arrays.copyOf(tmpBuffer, tmpBuffer.length);
 				}
 				else
 				{
-					byte[] tmpRes = result;
-					
+					byte[] tmpRes = result;					
 					result = new byte[result.length + tmpBuffer.length];
 					System.arraycopy(tmpRes, 0, result, 0, tmpRes.length);
 					System.arraycopy(tmpBuffer, 0, result, tmpRes.length, tmpBuffer.length);

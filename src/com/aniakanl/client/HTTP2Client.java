@@ -38,7 +38,7 @@ public class HTTP2Client {
 			String msgResponse = new String(result, 0, result.length);
 
 			if (msgResponse.startsWith("HTTP/1.1 101")) {
-
+				
 			}
 			System.out.print(msgResponse);
 		}
