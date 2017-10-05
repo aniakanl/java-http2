@@ -8,8 +8,9 @@ import com.aniakanl.client.ExBufferedInputStream;
 
 public class FrameSerializer {
 	
-	public void deSerialize(ExBufferedInputStream bufferedInputStream){
+	public BaseFrame deSerialize(ExBufferedInputStream bufferedInputStream){
 		
+		BaseFrame result = null;
 		byte[] tmpBuffer = new byte[9];
 		FrameType type = null;
 		FrameFlag flag = null;
@@ -23,6 +24,21 @@ public class FrameSerializer {
 			e.printStackTrace();
 		}
 		
+		
+		FrameHeader header = FrameHeader.Parse(tmpBuffer);
+		
+		switch(header.Type)
+		{
+			case HEADERS:
+				
+				result = new HeaderFrame();
+				break;
+				
+				
+		}
+		
+		
+		/*
 		int readIndex = 0;
 		
 		while(readIndex != tmpBuffer.length){
@@ -31,6 +47,8 @@ public class FrameSerializer {
 			
 			
 			int frame_type = tmpBuffer[readIndex];
+			
+			
 			
 			switch(frame_type){
 			case 1: type = FrameType.HEADERS;
@@ -66,9 +84,11 @@ public class FrameSerializer {
 			streamIdentifier = (tmpBuffer[readIndex+3] & 0xFF) | ((tmpBuffer[readIndex+2] & 0xFF) << 8) | 
 					((tmpBuffer[readIndex+1] & 0xFF) << 16) | (((tmpBuffer[readIndex] & 01111111) & 0xFF) << 24);
 			
-		}
+		}*/
 		
-		FrameHeader frameHeader = new FrameHeader(length, type, flag, streamIdentifier);
+		//FrameHeader frameHeader = new FrameHeader(length, type, flag, streamIdentifier);
+		
+		return result;
 	}
 
 }
