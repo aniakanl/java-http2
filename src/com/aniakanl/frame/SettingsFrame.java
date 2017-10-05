@@ -1,5 +1,5 @@
 package com.aniakanl.frame;
 
-public class SettingsFrame {
+public class SettingsFrame extends BaseFrame{
 
 }

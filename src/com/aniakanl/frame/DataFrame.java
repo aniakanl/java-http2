@@ -1,5 +1,5 @@
 package com.aniakanl.frame;
 
-public class DataFrame {
+public class DataFrame extends BaseFrame{
 
 }
