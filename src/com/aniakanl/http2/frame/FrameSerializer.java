@@ -17,6 +17,7 @@ public class FrameSerializer {
 		FrameHeader frameHeader = FrameHeader.Parse(tmpBuffer);
 		
 		byte[] body = bufferedInputStream.readFully(frameHeader.getLength());
+			
 
 		switch (frameHeader.getType()) {
 		case HEADERS:
@@ -47,7 +48,7 @@ public class FrameSerializer {
 			baseFrame = SettingsFrame.parse(body, frameHeader);
 			break;
 		case WINDOW_UPDATE:
-			//baseFrame = new WindowUpdateFrame();
+			baseFrame = WindowUpdateFrame.parse(body, frameHeader);
 			break;
 		default:
 			break;
@@ -57,7 +58,7 @@ public class FrameSerializer {
 		return baseFrame;
 	}
 	
-	public static byte[] serializer(BaseFrame frame)
+	public static byte[] serialize(BaseFrame frame)
 	{
 		return frame.convertToBinary();
 	}

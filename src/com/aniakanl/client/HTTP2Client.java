@@ -33,9 +33,9 @@ public class HTTP2Client {
 		
 		Socket clientSocket = new Socket(target.getHost(), port);
 		OutputStream output = clientSocket.getOutputStream();
-		BufferedOutputStream bufferOS = new BufferedOutputStream(output);
-		bufferOS.write(reqArr, 0, reqArr.length);
-		bufferOS.flush();
+		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(output);
+		bufferedOutputStream.write(reqArr, 0, reqArr.length);
+		bufferedOutputStream.flush();
 		
 		InputStream input = clientSocket.getInputStream();
 		ExBufferedInputStream bufferedInputStream = new ExBufferedInputStream(input);
@@ -46,7 +46,7 @@ public class HTTP2Client {
 
 			if (msgResponse.startsWith("HTTP/1.1 101")) {
 				
-				HTTP2Connection connection = new HTTP2Connection(bufferedInputStream);
+				HTTP2Connection connection = new HTTP2Connection(bufferedInputStream, bufferedOutputStream);
 				connection.handle();
 				
 			}

@@ -4,6 +4,12 @@ public abstract class BaseFrame {
 	
 	private FrameHeader header;
 	
+	
+	
+	public BaseFrame(FrameHeader header) {
+		this.header = header;
+	}
+
 	public FrameHeader getHeader()
 	{
 		return header;

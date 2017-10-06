@@ -66,14 +66,16 @@ public class Utils {
 		return result;
 
 	}
+	
+	public static void convertToBinary(byte[] buffer, int pos, int input) {
+		convertToBinary(buffer, pos, input, 4);
+	}
 
-	public static byte[] convertToBinary(int input) {
-		byte[] result = new byte[4];
-		for (int i = 0; i < 4; i++) {
-			result[i] = (byte) ((input >> 8 * i) & 255);
+	public static void convertToBinary(byte[] buffer, int pos, int input, int length) {
+		for (int i = pos; i < pos + length; i++) {
+			buffer[i] = (byte) ((input >> 8 * i) & 255);
 
 		}
-		return result;
 	}
 
 	public static byte[] convertToBinary(long input) {

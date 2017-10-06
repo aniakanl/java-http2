@@ -60,7 +60,7 @@ public class FrameHeader {
 		return streamIdentifier;
 	}
 
-	private FrameHeader(int length, FrameType type, FrameFlag flag, int streamIdentifier) {
+    FrameHeader(int length, FrameType type, FrameFlag flag, int streamIdentifier) {
 		this.length = length;
 		this.type = type;
 		this.flag = flag;
@@ -101,7 +101,14 @@ public class FrameHeader {
 	
 	public void convertToBinary(byte[] buffer, int off)
 	{
-		
+		 Utils.convertToBinary( buffer, off, this.length, 3);
+		 off += 3;
+		 buffer[off] = this.getType().value;
+		 off += 1;
+		 buffer[off] = this.getFlag().value;
+		 off += 1;
+		 Utils.convertToBinary( buffer, off, this.streamIdentifier);
+			 
 	}
 	
 

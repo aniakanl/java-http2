@@ -10,7 +10,7 @@ public class Program {
 	 * 
 	 * @param args
 	 */
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
 
 		try {
 			if (args.length == 1) {
@@ -21,9 +21,7 @@ public class Program {
 			// TODO log appropriately
 		} catch (IOException e) {
 			// TODO log appropriately
-		} catch (Exception e) {
-
-		}
+		} 
 	}
 
 }
