@@ -16,7 +16,7 @@ public class SettingsFrame extends BaseFrame{
 	{
 		SettingsFrame result = null;
 		
-		if(frameBody != null)
+		if(frameBody != null && header.getLength() == frameBody.length)
 		{
 			result = new SettingsFrame();
 			
@@ -33,6 +33,22 @@ public class SettingsFrame extends BaseFrame{
 			
 		}
 		return result;
+	}
+
+	@Override
+	public byte[] convertToBinary() {
+	   
+		int settingBodySize = params.size() * SettingParameter.PARAMETER_SIZE;
+		byte[] buffer = new byte[FrameHeader.HEADER_SIZE + settingBodySize];
+		
+		getHeader().convertToBinary(buffer, 0);
+		
+		for(int i= 0; i< params.size(); i++)
+		{
+			params.get(i).convertToBinary(buffer, FrameHeader.HEADER_SIZE + (i * SettingParameter.PARAMETER_SIZE));
+		}
+		
+		return buffer;
 	}
 	
 	

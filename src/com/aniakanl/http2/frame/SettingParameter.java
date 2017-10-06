@@ -2,6 +2,7 @@ package com.aniakanl.http2.frame;
 import com.aniakanl.utils.Utils;
 
 public class SettingParameter {
+	static final int PARAMETER_SIZE = 6;
 	public SettingIdentifier identifier;
 	public long value;
 	
@@ -16,5 +17,10 @@ public class SettingParameter {
 			result.value = Utils.convertToLong(param, 2, 4);	
 		}
 		return result;
+	}
+	
+	public void convertToBinary(byte[] buffer, int off)
+	{
+		
 	}
 }

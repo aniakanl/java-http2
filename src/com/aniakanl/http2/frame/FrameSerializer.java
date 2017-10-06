@@ -56,5 +56,10 @@ public class FrameSerializer {
 
 		return baseFrame;
 	}
+	
+	public static byte[] serializer(BaseFrame frame)
+	{
+		return frame.convertToBinary();
+	}
 
 }

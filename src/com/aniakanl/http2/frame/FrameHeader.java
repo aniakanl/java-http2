@@ -17,6 +17,8 @@ import com.aniakanl.utils.Utils;
  */
 
 public class FrameHeader {
+	
+	static final int HEADER_SIZE = 9;
 
 	private int length;
 	private FrameType type;
@@ -96,5 +98,11 @@ public class FrameHeader {
 
 		return frameHeader;
 	}
+	
+	public void convertToBinary(byte[] buffer, int off)
+	{
+		
+	}
+	
 
 }

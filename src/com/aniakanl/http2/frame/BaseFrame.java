@@ -13,5 +13,7 @@ public abstract class BaseFrame {
 	{
 		this.header = header;
 	}
+	
+	public abstract byte[] convertToBinary();
 
 }
