@@ -1,4 +1,6 @@
-package com.aniakanl.frame;
+package com.aniakanl.http2.frame;
+
+import com.aniakanl.utils.Utils;
 
 /**
  * Create a frame header object
@@ -67,8 +69,9 @@ public class FrameHeader {
 	 * Parse the 9 bytes frame header to determine length, type, flags and the stream identifier
 	 * @param tmpBuffer 9 bytes frame header
 	 * @return
+	 * @throws Exception 
 	 */
-	public static FrameHeader Parse(byte[] tmpBuffer) {
+	public static FrameHeader Parse(byte[] tmpBuffer) throws Exception {
 		FrameHeader frameHeader = null;
 
 		FrameType type = null;
@@ -77,72 +80,17 @@ public class FrameHeader {
 		int length = 0;
 		int readIndex = 0;
 
-		length = (tmpBuffer[2] & 0xFF) | ((tmpBuffer[1] & 0xFF) << 8) | ((tmpBuffer[0] & 0xFF) << 16);
+		length = Utils.convertToInt(tmpBuffer, readIndex, 3);
+		readIndex += 3;
 
-		readIndex = 3;
-
-		int frame_type = tmpBuffer[readIndex];
-
-		switch (frame_type) {
-		case 1:
-			type = FrameType.HEADERS;
-			break;
-		case 2:
-			type = FrameType.PRIORITY;
-			break;
-		case 3:
-			type = FrameType.RST_STREAM;
-			break;
-		case 4:
-			type = FrameType.SETTINGS;
-			break;
-		case 5:
-			type = FrameType.PUSH_PROMISE;
-			break;
-		case 6:
-			type = FrameType.PING;
-			break;
-		case 7:
-			type = FrameType.GOAWAY;
-			break;
-		case 8:
-			type = FrameType.WINDOW_UPDATE;
-			break;
-		case 9:
-			type = FrameType.CONTINUATION;
-			break;
-		}
-
+		type =FrameType.getEnum(tmpBuffer[readIndex]); 
 		readIndex++;
 
-		int frame_flag = tmpBuffer[readIndex];
-
-		if (type == FrameType.SETTINGS || type == FrameType.PING) {
-			switch (frame_flag) {
-			case 1:
-				flag = FrameFlag.ACK;
-			}
-		} else {
-			switch (frame_flag) {
-			case 1:
-				flag = FrameFlag.END_STREAM;
-				break;
-			case 4:
-				flag = FrameFlag.END_HEADERS;
-				break;
-			case 8:
-				flag = FrameFlag.PADDED;
-				break;
-			case 32:
-				flag = FrameFlag.PRIORITY;
-				break;
-			}
-		}
-
+		flag = FrameFlag.getEnum( tmpBuffer[readIndex], type);
 		readIndex++;
 
-		streamIdentifier = (tmpBuffer[readIndex + 3] & 0xFF) | ((tmpBuffer[readIndex + 2] & 0xFF) << 8)
-				| ((tmpBuffer[readIndex + 1] & 0xFF) << 16) | (((tmpBuffer[readIndex] & 01111111) & 0xFF) << 24);
+		streamIdentifier = Utils.convertToInt(tmpBuffer, readIndex);
+		readIndex += 4;
 
 		frameHeader = new FrameHeader(length, type, flag, streamIdentifier);
 

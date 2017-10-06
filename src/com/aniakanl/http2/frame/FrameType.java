@@ -1,0 +1,36 @@
+package com.aniakanl.http2.frame;
+
+public enum FrameType {
+	// TODO Change Frame Enum to Byte from Int  
+	DATA((byte)0x0), 
+	HEADERS((byte)0x1), 
+	PRIORITY((byte)0x2), 
+	RST_STREAM((byte)0x3), 
+	SETTINGS((byte)0x4), 
+	PUSH_PROMISE((byte)0x5), 
+	PING((byte)0x6), 
+	GOAWAY((byte)0x7), 
+	WINDOW_UPDATE((byte)0x8), 
+	CONTINUATION((byte)0x9),
+	NOT_IMPLEMENTED((byte)0xA);
+	
+	byte value;
+
+	FrameType(byte value) {
+		this.value = value;
+	}
+
+	public byte getValue() {
+		return value;
+	}
+
+	public static FrameType getEnum(int value) {
+		FrameType result = FrameType.NOT_IMPLEMENTED;
+
+		for (FrameType e : FrameType.values()) {
+			if (e.getValue() == value)
+				result = e;
+		}
+		return result;
+	}
+}
