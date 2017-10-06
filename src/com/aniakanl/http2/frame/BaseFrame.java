@@ -8,5 +8,10 @@ public abstract class BaseFrame {
 	{
 		return header;
 	}
+	
+	public void setHeader(FrameHeader header)
+	{
+		this.header = header;
+	}
 
 }

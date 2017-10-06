@@ -12,13 +12,15 @@ public class SettingsFrame extends BaseFrame{
 		super();
 	}
 	
-	public static SettingsFrame parse(byte[] frameBody) throws Exception
+	public static SettingsFrame parse(byte[] frameBody, FrameHeader header) throws Exception
 	{
 		SettingsFrame result = null;
 		
 		if(frameBody != null)
 		{
 			result = new SettingsFrame();
+			
+			result.setHeader(header);
 			
 			int paramIndex=0;
 			

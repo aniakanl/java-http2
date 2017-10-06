@@ -20,34 +20,34 @@ public class FrameSerializer {
 
 		switch (frameHeader.getType()) {
 		case HEADERS:
-			baseFrame = new HeaderFrame();
+			//baseFrame = new HeaderFrame();
 			break;
 		case CONTINUATION:
-			baseFrame = new ContinuationFrame();
+			//baseFrame = new ContinuationFrame();
 			break;
 		case DATA:
-			baseFrame = new DataFrame();
+			//baseFrame = new DataFrame();
 			break;
 		case GOAWAY:
-			baseFrame = new GoawayFrame();
+			//baseFrame = new GoawayFrame();
 			break;
 		case PING:
-			baseFrame = new PingFrame();
+			//baseFrame = new PingFrame();
 			break;
 		case PRIORITY:
-			baseFrame = new PriorityFrame();
+			//baseFrame = new PriorityFrame();
 			break;
 		case PUSH_PROMISE:
-			baseFrame = new PushPromiseFrame();
+			//baseFrame = new PushPromiseFrame();
 			break;
 		case RST_STREAM:
-			baseFrame = new RSTStreamFrame();
+			//baseFrame = new RSTStreamFrame();
 			break;
 		case SETTINGS:
-			baseFrame = SettingsFrame.parse(body);
+			baseFrame = SettingsFrame.parse(body, frameHeader);
 			break;
 		case WINDOW_UPDATE:
-			baseFrame = new WindowUpdateFrame();
+			//baseFrame = new WindowUpdateFrame();
 			break;
 		default:
 			break;
