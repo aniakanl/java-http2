@@ -1,5 +1,8 @@
 package com.aniakanl.http2.frame;
 
+/**
+ * An enumeration to define all the Flags that can be attached to a frame
+ */
 public enum FrameFlag {
 
 	END_STREAM((byte)0x1), 

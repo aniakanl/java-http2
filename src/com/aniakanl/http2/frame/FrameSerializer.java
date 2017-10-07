@@ -1,8 +1,5 @@
 package com.aniakanl.http2.frame;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.aniakanl.client.ExBufferedInputStream;
 
 public class FrameSerializer {
@@ -21,7 +18,7 @@ public class FrameSerializer {
 
 		switch (frameHeader.getType()) {
 		case HEADERS:
-			//baseFrame = new HeaderFrame();
+			baseFrame = HeaderFrame.parse(body, frameHeader);
 			break;
 		case CONTINUATION:
 			//baseFrame = new ContinuationFrame();

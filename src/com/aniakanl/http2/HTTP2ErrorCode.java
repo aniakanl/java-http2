@@ -1,7 +1,5 @@
 package com.aniakanl.http2;
 
-import com.aniakanl.http2.frame.SettingIdentifier;
-
 public enum HTTP2ErrorCode {
 	
 	NO_ERROR (0x0),

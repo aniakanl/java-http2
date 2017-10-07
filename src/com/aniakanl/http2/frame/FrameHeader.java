@@ -4,18 +4,7 @@ import com.aniakanl.utils.Utils;
 
 /**
  * Create a frame header object
- * 
- * @param length
- *            24-bit unsigned integer value that specifies length of the frame
- * @param type
- *            defined as an enum FrameType, it identifies the type of the frame
- * @param flag
- *            defined as an enum Flag, it identifies flags associated with a
- *            particular frame
- * @param streamIdentifier
- *            31-bit unsigned integer uniquely identifies a frame
  */
-
 public class FrameHeader {
 	
 	static final int HEADER_SIZE = 9;
@@ -73,6 +62,7 @@ public class FrameHeader {
 	 * @return
 	 * @throws Exception 
 	 */
+    // TODO validate the frame size, frame number, and number of frames in session based on the SETTINGS frame
 	public static FrameHeader Parse(byte[] tmpBuffer) throws Exception {
 		FrameHeader frameHeader = null;
 

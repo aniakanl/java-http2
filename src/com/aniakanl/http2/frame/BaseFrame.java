@@ -3,9 +3,7 @@ package com.aniakanl.http2.frame;
 public abstract class BaseFrame {
 	
 	private FrameHeader header;
-	
-	
-	
+		
 	public BaseFrame(FrameHeader header) {
 		this.header = header;
 	}

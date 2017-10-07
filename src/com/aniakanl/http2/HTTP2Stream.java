@@ -1,12 +1,6 @@
 package com.aniakanl.http2;
 
-import java.util.ArrayDeque;
-import java.util.HashMap;
-
 import com.aniakanl.http2.frame.BaseFrame;
-import com.aniakanl.http2.frame.SettingIdentifier;
-import com.aniakanl.http2.frame.SettingParameter;
-import com.aniakanl.http2.frame.SettingsFrame;
 import com.aniakanl.http2.frame.WindowUpdateFrame;
 
 public class HTTP2Stream {
