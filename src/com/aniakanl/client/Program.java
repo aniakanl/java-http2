@@ -6,12 +6,8 @@ import java.net.URL;
 
 public class Program {
 
-	/**
-	 * 
-	 * @param args
-	 */
 	public static void main(String args[]) throws Exception {
-
+		
 		try {
 			if (args.length == 1) {
 				HTTP2Client client = new HTTP2Client();

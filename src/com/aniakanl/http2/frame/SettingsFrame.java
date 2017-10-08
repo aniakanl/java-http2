@@ -2,6 +2,7 @@ package com.aniakanl.http2.frame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 
 import com.aniakanl.http2.HTTP2ErrorCode;
 import com.aniakanl.http2.HTTP2Exception;
@@ -14,7 +15,7 @@ public class SettingsFrame extends BaseFrame {
 	 * SettingsFrame Constructor which calls the parameterized constructor
 	 */
 	public SettingsFrame() {
-		this(new FrameHeader(0, FrameType.SETTINGS, FrameFlag.NONE, 0));
+		this(new FrameHeader(0, FrameType.SETTINGS, EnumSet.noneOf(FrameFlag.class) , 0));
 	}
 
 	public SettingsFrame(FrameHeader header) {

@@ -1,5 +1,7 @@
 package com.aniakanl.http2.frame;
 
+import java.util.EnumSet;
+
 import com.aniakanl.utils.Utils;
 
 /**
@@ -11,7 +13,7 @@ public class FrameHeader {
 
 	private int length;
 	private FrameType type;
-	private FrameFlag flag;
+	private EnumSet<FrameFlag> flags;
 	private int streamIdentifier;
 
 	/**
@@ -33,12 +35,12 @@ public class FrameHeader {
 	}
 
 	/**
-	 * @param flag
-	 *            defined as an enum Flag, it identifies flags associated with a
+	 * @param flags
+	 *            defined as an EnumSet<FrameFlag>, it identifies flags associated with a
 	 *            particular frame
 	 */
-	public FrameFlag getFlag() {
-		return flag;
+	public EnumSet<FrameFlag> getFlags() {
+		return flags;
 	}
 
 	/**
@@ -49,10 +51,10 @@ public class FrameHeader {
 		return streamIdentifier;
 	}
 
-    FrameHeader(int length, FrameType type, FrameFlag flag, int streamIdentifier) {
+    FrameHeader(int length, FrameType type, EnumSet<FrameFlag> flags, int streamIdentifier) {
 		this.length = length;
 		this.type = type;
-		this.flag = flag;
+		this.flags = flags;
 		this.streamIdentifier = streamIdentifier;
 	}
 
@@ -67,7 +69,7 @@ public class FrameHeader {
 		FrameHeader frameHeader = null;
 
 		FrameType type = null;
-		FrameFlag flag = null;
+		EnumSet<FrameFlag> flag = null;
 		int streamIdentifier = 0;
 		int length = 0;
 		int readIndex = 0;
@@ -78,7 +80,7 @@ public class FrameHeader {
 		type =FrameType.getEnum(tmpBuffer[readIndex]); 
 		readIndex++;
 
-		flag = FrameFlag.getEnum( tmpBuffer[readIndex], type);
+		flag = FrameFlag.getEnumSet( tmpBuffer[readIndex], type);
 		readIndex++;
 
 		streamIdentifier = Utils.convertToInt(tmpBuffer, readIndex);
@@ -95,7 +97,7 @@ public class FrameHeader {
 		 off += 3;
 		 buffer[off] = this.getType().value;
 		 off += 1;
-		 buffer[off] = this.getFlag().value;
+		 buffer[off] = FrameFlag.getValue(this.getFlags());
 		 off += 1;
 		 Utils.convertToBinary( buffer, off, this.streamIdentifier);
 			 
