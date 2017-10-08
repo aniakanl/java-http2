@@ -1,6 +1,7 @@
 package com.aniakanl.http2.frame;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 
 import com.aniakanl.http2.HTTP2ErrorCode;
 import com.aniakanl.http2.HTTP2Exception;
@@ -32,14 +33,31 @@ public enum FrameFlag {
 		// Empty EnumSet
 		EnumSet<FrameFlag> result = EnumSet.noneOf(FrameFlag.class);
 
+		// Check if the first bit is set
+		if((value & 1)  == 1)
+		{
+			// for SETTING and PING frames the first bit indicates whether the frame is ACK
+			if(type == FrameType.SETTINGS || type == FrameType.PING)
+			{
+				result.add(FrameFlag.ACK);
+			}
+			else
+			{
+				result.add(FrameFlag.END_STREAM);
+			}
+			
+			// reset the first bit
+			value = (byte)(value ^ 1);
+		}
+
 		// For each flag in FrameFlag
 		for (FrameFlag flag : FrameFlag.values()) {
 			// Check whether the flag bit is set
-			if ((value & flag.value) == 1) {
+			if ((value & flag.value) != 0) {
 				result.add(flag);
 				
 				// reset the flag bit
-				value = (byte)(value & flag.value);
+				value = (byte)(value ^ flag.value);
 			}
 		}
 		
