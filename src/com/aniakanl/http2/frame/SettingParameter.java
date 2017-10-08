@@ -4,6 +4,7 @@ import com.aniakanl.http2.HTTP2Exception;
 import com.aniakanl.utils.Utils;
 
 public class SettingParameter {
+	
 	static final int PARAMETER_SIZE = 6;
 	public SettingIdentifier identifier;
 	public long value;

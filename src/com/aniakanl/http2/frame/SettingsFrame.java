@@ -2,7 +2,6 @@ package com.aniakanl.http2.frame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import com.aniakanl.http2.HTTP2ErrorCode;
 import com.aniakanl.http2.HTTP2Exception;
@@ -11,6 +10,9 @@ public class SettingsFrame extends BaseFrame {
 
 	ArrayList<SettingParameter> params = new ArrayList<>();
 
+	/**
+	 * SettingsFrame Constructor which calls the parameterized constructor
+	 */
 	public SettingsFrame() {
 		this(new FrameHeader(0, FrameType.SETTINGS, FrameFlag.NONE, 0));
 	}
@@ -27,11 +29,13 @@ public class SettingsFrame extends BaseFrame {
 		SettingsFrame result = null;
 
 		if (frameBody != null) {
-			
-			// rfc7540 (section 4.2) A frame size error in a frame that could alter the state of
-			// the entire connection MUST be treated as a connection error (Section 5.4.1); 
+
+			// rfc7540 (section 4.2) A frame size error in a frame that could
+			// alter the state of
+			// the entire connection MUST be treated as a connection error
+			// (Section 5.4.1);
 			if (header.getLength() == frameBody.length) {
-				
+
 				result = new SettingsFrame(header);
 
 				int paramIndex = 0;
@@ -41,9 +45,7 @@ public class SettingsFrame extends BaseFrame {
 							.add(SettingParameter.parse(Arrays.copyOfRange(frameBody, paramIndex, paramIndex + 6)));
 					paramIndex += 6;
 				}
-			}
-			else
-			{
+			} else {
 				throw new HTTP2Exception(HTTP2ErrorCode.FRAME_SIZE_ERROR);
 			}
 
