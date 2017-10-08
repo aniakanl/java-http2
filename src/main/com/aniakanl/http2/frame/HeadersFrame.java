@@ -141,7 +141,7 @@ public class HeadersFrame extends BaseFrame {
 				paramIndex += 4;
 
 				if (header.getFlags().contains(FrameFlag.PRIORITY)) {
-					if ((headerFrame.getStreamIdentifier() & 0x80000000L) != 0x0) {
+					if ((headerFrame.getStreamIdentifier() & 0x80000000L) != 0x0L) {
 						headerFrame.setIsExclusive(true);
 					}
 				}

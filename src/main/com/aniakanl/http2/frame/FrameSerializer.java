@@ -18,7 +18,7 @@ public class FrameSerializer {
 
 		switch (frameHeader.getType()) {
 		case HEADERS:
-			baseFrame = HeaderFrame.parse(body, frameHeader);
+			baseFrame = HeadersFrame.parse(body, frameHeader);
 			break;
 		case CONTINUATION:
 			//baseFrame = new ContinuationFrame();

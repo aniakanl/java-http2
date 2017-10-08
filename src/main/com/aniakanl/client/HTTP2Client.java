@@ -1,19 +1,12 @@
 package com.aniakanl.client;
 
 import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.URL;
-import java.net.UnknownHostException;
 
 import com.aniakanl.http2.HTTP2Connection;
-import com.aniakanl.http2.frame.BaseFrame;
-import com.aniakanl.http2.frame.FrameHeader;
-import com.aniakanl.http2.frame.FrameSerializer;
-import com.aniakanl.http2.frame.FrameType;
-import com.aniakanl.http2.frame.HeaderFrame;
 
 public class HTTP2Client {
 
