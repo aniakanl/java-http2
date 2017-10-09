@@ -140,11 +140,15 @@ public class HeadersFrame extends BaseFrame {
 				headerFrame.setStreamIdentifier(Utils.convertToLong(frameBody, paramIndex, 4));
 				paramIndex += 4;
 
-				if (header.getFlags().contains(FrameFlag.PRIORITY)) {
-					if ((headerFrame.getStreamIdentifier() & 0x80000000L) != 0x0L) {
-						headerFrame.setIsExclusive(true);
-					}
+				
+				if ((headerFrame.getStreamIdentifier() & 0x80000000L) != 0x0L) {
+					headerFrame.setIsExclusive(true);
 				}
+				
+				if ( headerFrame.getIsExclusive() == true &&  header.getFlags().contains(FrameFlag.PRIORITY) == false) {
+					throw new HTTP2Exception(HTTP2ErrorCode.PROTOCOL_ERROR , 
+							"Error: Exclusive field in HeadersFrame is set but the priority flag is not set.");
+				}			
 
 				headerFrame.setStreamIdentifier(headerFrame.getStreamIdentifier() & 0x7FFFFFFFL);
 
