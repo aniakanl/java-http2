@@ -16,7 +16,7 @@ sourceSets {
             srcDirs = ['src/main']
         }
         resources {
-        	srcDirs = ['src']
+        	srcDirs = ['src/res']
         }
     }
     test {
