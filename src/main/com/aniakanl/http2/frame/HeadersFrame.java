@@ -137,31 +137,37 @@ public class HeadersFrame extends BaseFrame {
 					paramIndex += 1;
 				}
 
-				headerFrame.setStreamIdentifier(Utils.convertToLong(frameBody, paramIndex, 4));
-				paramIndex += 4;
+				if (header.getFlags().contains(FrameFlag.PRIORITY)) {
 
-				
-				if ((headerFrame.getStreamIdentifier() & 0x80000000L) != 0x0L) {
-					headerFrame.setIsExclusive(true);
-				}
-				
-				if ( headerFrame.getIsExclusive() == true &&  header.getFlags().contains(FrameFlag.PRIORITY) == false) {
-					throw new HTTP2Exception(HTTP2ErrorCode.PROTOCOL_ERROR , 
-							"Error: Exclusive field in HeadersFrame is set but the priority flag is not set.");
-				}			
+					headerFrame.setStreamIdentifier(Utils.convertToLong(frameBody, paramIndex, 4));
+					paramIndex += 4;
 
-				headerFrame.setStreamIdentifier(headerFrame.getStreamIdentifier() & 0x7FFFFFFFL);
+					if ((headerFrame.getStreamIdentifier() & 0x80000000L) != 0x0L) {
+						headerFrame.setIsExclusive(true);
+					}
 
-				if (headerFrame.isExclusive == true) {
-					headerFrame.setWeight(Utils.convertToInt(frameBody, paramIndex, 1) + 1);
-					paramIndex += 1;
+					if (headerFrame.getIsExclusive() == true
+							&& header.getFlags().contains(FrameFlag.PRIORITY) == false) {
+						throw new HTTP2Exception(HTTP2ErrorCode.PROTOCOL_ERROR,
+								"Error: Exclusive field in HeadersFrame is set but the priority flag is not set.");
+					}
+
+					headerFrame.setStreamIdentifier(headerFrame.getStreamIdentifier() & 0x7FFFFFFFL);
+
+					if (headerFrame.isExclusive == true) {
+						headerFrame.setWeight((int) frameBody[paramIndex]);
+						paramIndex += 1;
+					}
+
 				}
 
 				headerFrame.setHeaderBlock(
 						Arrays.copyOfRange(frameBody, paramIndex, (header.getLength() - headerFrame.getPadLength())));
-				paramIndex += (header.getLength() - headerFrame.getPadLength()) + 1;
 
-				headerFrame.setPadding(Arrays.copyOfRange(frameBody, paramIndex, headerFrame.getPadLength()));
+				if (headerFrame.getPadLength() > 0) {
+					paramIndex = (header.getLength() - headerFrame.getPadLength()) + 1;
+					headerFrame.setPadding(Arrays.copyOfRange(frameBody, paramIndex, headerFrame.getPadLength()));
+				}
 
 			} else {
 				throw new HTTP2Exception(HTTP2ErrorCode.FRAME_SIZE_ERROR);
