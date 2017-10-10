@@ -3,6 +3,7 @@ package com.aniakanl.http2.frame;
 import java.util.Arrays;
 import java.util.EnumSet;
 
+import com.aniakanl.hpack.HPACK;
 import com.aniakanl.http2.HTTP2ErrorCode;
 import com.aniakanl.http2.HTTP2Exception;
 import com.aniakanl.utils.Utils;
@@ -155,7 +156,7 @@ public class HeadersFrame extends BaseFrame {
 					headerFrame.setStreamIdentifier(headerFrame.getStreamIdentifier() & 0x7FFFFFFFL);
 
 					if (headerFrame.isExclusive == true) {
-						headerFrame.setWeight((int) frameBody[paramIndex]);
+						headerFrame.setWeight( (frameBody[paramIndex] & 0xFF) +1 );
 						paramIndex += 1;
 					}
 
@@ -163,6 +164,8 @@ public class HeadersFrame extends BaseFrame {
 
 				headerFrame.setHeaderBlock(
 						Arrays.copyOfRange(frameBody, paramIndex, (header.getLength() - headerFrame.getPadLength())));
+				
+				//HPACK.decode( headerFrame.getHeaderBlock());
 
 				if (headerFrame.getPadLength() > 0) {
 					paramIndex = (header.getLength() - headerFrame.getPadLength()) + 1;
