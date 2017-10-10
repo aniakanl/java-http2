@@ -30,7 +30,7 @@ public class Huffman {
 			    String code;
 			    byte value = 0;
 			    while ((line = br.readLine()) != null) {
-			    	code = line.substring(11, line.indexOf(' ', 11) -1 );
+			    	code = line.substring(11, line.indexOf(' ', 11) );
 			    	code = code.replace("|", "");
 			    	huffmanCodes.put(code, value );
 			    	value++;
