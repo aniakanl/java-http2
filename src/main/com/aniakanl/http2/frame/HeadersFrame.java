@@ -165,7 +165,7 @@ public class HeadersFrame extends BaseFrame {
 				headerFrame.setHeaderBlock(
 						Arrays.copyOfRange(frameBody, paramIndex, (header.getLength() - headerFrame.getPadLength())));
 				
-				//HPACK.decode( headerFrame.getHeaderBlock());
+				HPACK.decode( headerFrame.getHeaderBlock());
 
 				if (headerFrame.getPadLength() > 0) {
 					paramIndex = (header.getLength() - headerFrame.getPadLength()) + 1;
