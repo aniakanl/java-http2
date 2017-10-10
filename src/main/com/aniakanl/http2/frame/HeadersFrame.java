@@ -131,59 +131,75 @@ public class HeadersFrame extends BaseFrame {
 
 				int paramIndex = 0;
 
-				HeadersFrame headerFrame = new HeadersFrame();
+				HeadersFrame headersFrame = new HeadersFrame();
 
+				//check for PADDED flag and if set then store padding length
 				if (header.getFlags().contains(FrameFlag.PADDED)) {
-					headerFrame.setPadLength(Utils.convertToInt(frameBody, paramIndex, 1));
+					headersFrame.setPadLength(Utils.convertToInt(frameBody, paramIndex, 1));
 					paramIndex += 1;
 				}
-
+				
+				//check for PRIORITY flag and if set then store the Exclusive bit (isExclusive) and store streamID
 				if (header.getFlags().contains(FrameFlag.PRIORITY)) {
 
-					headerFrame.setStreamIdentifier(Utils.convertToLong(frameBody, paramIndex, 4));
+					headersFrame.setStreamIdentifier(Utils.convertToLong(frameBody, paramIndex, 4));
 					paramIndex += 4;
 
-					if ((headerFrame.getStreamIdentifier() & 0x80000000L) != 0x0L) {
-						headerFrame.setIsExclusive(true);
+					if ((headersFrame.getStreamIdentifier() & 0x80000000L) != 0x0L) {
+						headersFrame.setIsExclusive(true);
 					}
 
-					if (headerFrame.getIsExclusive() == true
+					if (headersFrame.getIsExclusive() == true
 							&& header.getFlags().contains(FrameFlag.PRIORITY) == false) {
 						throw new HTTP2Exception(HTTP2ErrorCode.PROTOCOL_ERROR,
 								"Error: Exclusive field in HeadersFrame is set but the priority flag is not set.");
 					}
 
-					headerFrame.setStreamIdentifier(headerFrame.getStreamIdentifier() & 0x7FFFFFFFL);
+					headersFrame.setStreamIdentifier(headersFrame.getStreamIdentifier() & 0x7FFFFFFFL);
 
-					if (headerFrame.isExclusive == true) {
-						headerFrame.setWeight( (frameBody[paramIndex] & 0xFF) +1 );
+					//if Exclusive field is set then store weight field for the headers frame
+					if (headersFrame.isExclusive == true) {
+						headersFrame.setWeight( (frameBody[paramIndex] & 0xFF) +1 );
 						paramIndex += 1;
 					}
 
 				}
 
-				headerFrame.setHeaderBlock(
-						Arrays.copyOfRange(frameBody, paramIndex, (header.getLength() - headerFrame.getPadLength())));
+				//set header block after removing the padding if any
+				headersFrame.setHeaderBlock(
+						Arrays.copyOfRange(frameBody, paramIndex, (header.getLength() - headersFrame.getPadLength())));
 				
-				HPACK.decode( headerFrame.getHeaderBlock());
+				HPACK.decode( headersFrame.getHeaderBlock());
 
-				if (headerFrame.getPadLength() > 0) {
-					paramIndex = (header.getLength() - headerFrame.getPadLength()) + 1;
-					headerFrame.setPadding(Arrays.copyOfRange(frameBody, paramIndex, headerFrame.getPadLength()));
+				if (headersFrame.getPadLength() > 0) {
+					paramIndex = (header.getLength() - headersFrame.getPadLength()) + 1;
+					headersFrame.setPadding(Arrays.copyOfRange(frameBody, paramIndex, headersFrame.getPadLength()));
 				}
+				
+				//result.convertToBinary();
+				
 
 			} else {
 				throw new HTTP2Exception(HTTP2ErrorCode.FRAME_SIZE_ERROR);
 			}
 
-		}
+		}		
 		return result;
 	}
 
 	@Override
 	public byte[] convertToBinary() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		int settingBodySize = this.getHeaderBlock().length;
+		byte[] buffer = new byte[FrameHeader.HEADER_SIZE + settingBodySize];
+		
+		getHeader().convertToBinary(buffer, 0);
+		
+		for(int i=0; i<this.getHeaderBlock().length;i++){
+			Utils.convertToBinary(buffer, FrameHeader.HEADER_SIZE,this.getHeaderBlock()[i]);
+		}
+		
+		return buffer;
 	}
 
 }
